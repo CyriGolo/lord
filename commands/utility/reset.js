@@ -10,6 +10,11 @@ module.exports = {
     async execute(interaction) {
         const channelOption = interaction.options.getChannel('channel');
         if (channelOption) {
+            if (channelOption.type === 'GUILD_CATEGORY') {
+                await interaction.reply({ content: "Vous ne pouvez pas réinitialiser une catégorie.", ephemeral: true });
+                return;
+            }
+
             const channelToClone = interaction.guild.channels.cache.get(channelOption.id);
             if (channelToClone) {
                 const newChannel = await channelToClone.clone();
