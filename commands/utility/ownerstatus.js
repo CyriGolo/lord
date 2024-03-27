@@ -13,13 +13,15 @@ module.exports = {
         if (!interaction.client.trackOwnerStatus) {
             await interaction.client.user.setPresence(interaction.client.defaultStatus);
         }
-        await interaction.reply(`Owner status tracking is now ${interaction.client.trackOwnerStatus ? 'enabled' : 'disabled'}.`);
+        await interaction.reply({
+                content: `Owner status tracking is now ${interaction.client.trackOwnerStatus ? 'enabled' : 'disabled'}.`,
+                ephemeral: true
+            });
     },
     async handlePresenceUpdate(oldPresence, newPresence) {
         const client = newPresence.client;
         const guild = newPresence.guild;
         const member = guild.members.cache.get(newPresence.userId);
-        const customStatus = newPresence.activities.find(activity => activity.type === 4);
     
         const ownerId = '789074847669288960';
     
