@@ -10,9 +10,10 @@ module.exports = {
         const message = new EmbedBuilder()
             .setColor('#0099ff')
             .setTitle('Welcome to the server!')
-            .setDescription(`Bienvenue à ${member.guild.name}, ${member}!\nTu es les ${member.guild.memberCount}ème membre!`)
+            .setThumbnail(member.user.displayAvatarURL())
+            .setDescription(`Bienvenue à ${member.guild.name}, ${member}!\nTu es le ${member.guild.memberCount}ème membre!`)
             .setTimestamp()
-            .setFooter({ text: member.user.username, iconURL: member.user.displayAvatarURL() });
+            .setFooter({ text: member.user.username, iconURL: member.guild.iconURL() });
 
         const channel = member.guild.channels.cache.get(channelId);
 
