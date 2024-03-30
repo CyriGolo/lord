@@ -5,8 +5,6 @@ module.exports = {
     execute: (member) => {
         const channelId = "1222278737261891674"
 
-        console.log(member);
-
         const message = new EmbedBuilder()
             .setColor('#0099ff')
             .setTitle('Welcome to the server!')
