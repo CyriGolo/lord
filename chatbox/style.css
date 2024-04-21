@@ -1,7 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
+    background-color: #0f3250;
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body,
+textarea,
+select,
+input {
+    font-family: "Poppins", "sans-serif";
+}
+
+#app {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    gap: 2.5rem;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 25px;
+}
+
+#message {
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+#createChannel,
+#sendMessage {
+    padding: .5rem;
+    border-radius: .5rem;
+    border: #0f3250 1px solid;
+}
+
+.chat {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.new {
+    display: flex;
+    align-items: center;
     gap: 1rem;
+    border-top: 1.5px solid #0f3250;
+    padding-top: 1rem;
+}
+
+#chatMessage {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 1.5rem;
+    list-style-type: none;
+}
+
+#chatMessage li {
+    display: flex;
+}
+
+.message {
+    width: fit-content;
+    padding: .3rem;
+    background-color: aliceblue;
+    position: relative;
+}
+
+.person {
+    position: absolute;
+    top: -1.2rem;
+    font-size: small;
+}
+
+.me .person {
+    left: 0;
+}
+
+.you .person {
+    right: 0;
+}
+
+.me {
+    justify-content: start;
+}
+
+.you {
+    justify-content: end;
+}
+
+#newMessage {
+    text-align: start;
+    border: ridge 2px;
+    padding: .5rem;
+    width: 10em;
+    min-height: 20px;
+    overflow: auto;
+    border-radius: .5rem;
 }

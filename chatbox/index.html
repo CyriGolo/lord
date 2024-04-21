@@ -8,9 +8,16 @@
     <title>Create Channel</title>
 </head>
 <body>
-    <input type="text" placeholder="title" id="title">
-    <textarea name="message" id="message" cols="30" rows="10"></textarea>
-    <button id="createChannel">Create Channel</button>
+    <div id="app">
+        <select name="raison" id="title">
+            <option value="Boutique">Boutique</option>
+            <option value="Serveur Minecraft">Serveur Minecraft</option>
+            <option value="Discord">Discord</option>
+            <option value="Autre">Autre</option>
+        </select>
+        <textarea name="message" id="message" cols="30" rows="10" placeholder="Décrivez votre demande"></textarea>
+        <button id="createChannel">Lancer la dicussion</button>
+    </div>
     <script src="./chatbox.js"></script>
 </body>
 </html>
