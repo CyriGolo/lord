@@ -1,34 +1,36 @@
 const button = document.querySelector('#createChannel');
 
 button.addEventListener('click', () => {
-    const title = document.querySelector('#title').value;
-    const message = document.querySelector('#message').value;
-    fetch('http://localhost:3000/create-channel', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ title, message }),
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            console.error('Failed to send channel creation request');
-        }
-    })
-    .then(data => {
-        const { threadId } = data;
-        startChat(title, message, threadId);
-    })
-    .catch(error => {
-        console.error('Error sending channel creation request:', error);
-    });
+    const title = titleInput.value;
+    const message = messageInput.value;
+    if(title && message){
+        fetch('http://localhost:3000/create-channel', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ title, message }),
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                console.error('Failed to send channel creation request');
+            }
+        })
+        .then(data => {
+            const { threadId } = data;
+            startChat(title, message, threadId);
+        })
+        .catch(error => {
+            console.error('Error sending channel creation request:', error);
+        });
+    }
 });
 
 async function startChat(title, message, threadId) {
     document.querySelector('#app').innerHTML = `
-        <h2>${title}<br> #${threadId}</h2> <!-- Utiliser l'ID du thread ici -->
+        <h2 style="border-bottom: 1.5px solid #0f3250;padding-bottom: 1rem;">${title}<br> #${threadId}</h2>
         <div class="chat">
             <ul id="chatMessage">
                 <li class="me">
@@ -40,7 +42,7 @@ async function startChat(title, message, threadId) {
             </ul>
             <div class="new">
                 <div id="newMessage" contentEditable></div>
-                <button id="sendMessage">Envoyez le message 📤</button>
+                <button id="sendMessage">📤</button>
             </div>
         </div>
     `;
@@ -53,24 +55,26 @@ async function startChat(title, message, threadId) {
 
     sendMessage.addEventListener('click', async () => {
         const newMessageContent = newMessage.textContent;
-        newMessage.textContent = '';
-        await fetch('http://localhost:3000/send-message', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ message: newMessageContent }),
-        })
-        .then(response => {
-            if (response.ok) {
-                console.log('Message sent successfully');
-            } else {
-                console.error('Failed to send message');
-            }
-        })
-        .catch(error => {
-            console.error('Error sending message:', error);
-        });
+        if(newMessageContent){
+            newMessage.textContent = '';
+            await fetch('http://localhost:3000/send-message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: newMessageContent }),
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Message sent successfully');
+                } else {
+                    console.error('Failed to send message');
+                }
+            })
+            .catch(error => {
+                console.error('Error sending message:', error);
+            });
+        };
     });
 };
 
@@ -96,14 +100,27 @@ async function updateChat() {
     const chatMessage = document.querySelector('#chatMessage');
     chatMessage.innerHTML = '';
 
-    messages.forEach(message => {
-        chatMessage.innerHTML += `
-            <li class="${message.author === "Lord's" ? "me" : "you"}">
-                <div class="message">
-                    <p class="person">${message.author === "Lord's" ? "Me" : message.author}</p>
-                    <p>${message.content}</p>
-                </div>
-            </li>
-        `;
-    });
-}
+    let lastDisplayedUser = '';
+    for(let i = messages.length - 1; i >= 0; i--) {
+        const message = messages[i];
+        if (message.author !== lastDisplayedUser) {
+            chatMessage.innerHTML += `
+                <li class="${message.author === "Lord's" ? "me" : "you"}" ${i !== (message.length - 1) ? 'style="margin-top: 1.3rem;"' : ""}>
+                    <div class="message">
+                        <p class="person">${message.author === "Lord's" ? "Me" : message.author}</p>
+                        <p>${message.content}</p>
+                    </div>
+                </li>
+            `;
+            lastDisplayedUser = message.author;
+        } else {
+            chatMessage.innerHTML += `
+                <li class="${message.author === "Lord's" ? "me" : "you"}">
+                    <div class="message">
+                        <p>${message.content}</p>
+                    </div>
+                </li>
+            `;
+        }
+    };
+};
