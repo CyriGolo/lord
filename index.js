@@ -1,5 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
+const express = require('express');
+const app = express();
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
 
@@ -35,5 +37,41 @@ for (const file of eventFiles) {
         client.on(event.name, (...args) => event.execute(...args, client));
     }
 }
+
+
+
+// CHATBOX
+
+app.use(express.json());
+
+app.post('/create-channel', async (req, res) => {
+    const channelId = "1231410839010021398";
+    const channel = await client.channels.fetch(channelId);
+
+
+    await channel.threads.create({
+        name: req.body.title,
+        autoArchiveDuration: "60",
+        message: {
+        content: req.body.message,
+        },
+        reason: 'Try to create a channel',
+    })
+    .then(threadChannel => console.log("New thread create : " + threadChannel.name))
+    .catch(console.error);
+});
+
+app.listen(3000, () => {
+    console.log('Server is running on port 3000');
+});
+
+app.use(express.static(path.join(__dirname, "chatbox")));
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'chatbox', 'index.html'));
+});
+
+
+
+// LOGIN
 
 client.login(token);

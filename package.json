@@ -9,6 +9,7 @@
   "author": "Cyri",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^14.12.1"
+    "discord.js": "^14.12.1",
+    "express": "^4.19.2"
   }
 }
