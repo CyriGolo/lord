@@ -54,6 +54,7 @@ input {
 .new {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 1rem;
     border-top: 1.5px solid #0f3250;
     padding-top: 1rem;
@@ -62,6 +63,7 @@ input {
 #chatMessage {
     display: flex;
     flex-direction: column;
+    gap: .2rem;
     list-style-type: none;
 }
 
@@ -76,8 +78,10 @@ input {
 .message {
     width: fit-content;
     padding: .3rem;
-    background-color: aliceblue;
+    background-color: #f0f8ff;
+    border: 1px solid #bfddf7;
     position: relative;
+    border-radius: .3rem;
 }
 
 .person {

@@ -1,8 +1,8 @@
 const button = document.querySelector('#createChannel');
 
 button.addEventListener('click', () => {
-    const title = titleInput.value;
-    const message = messageInput.value;
+    const title = document.querySelector('#title').value;
+    const message = document.querySelector('#message').value;
     if(title && message){
         fetch('http://localhost:3000/create-channel', {
             method: 'POST',
@@ -107,7 +107,7 @@ async function updateChat() {
             chatMessage.innerHTML += `
                 <li class="${message.author === "Lord's" ? "me" : "you"}" ${i !== (message.length - 1) ? 'style="margin-top: 1.3rem;"' : ""}>
                     <div class="message">
-                        <p class="person">${message.author === "Lord's" ? "Me" : message.author}</p>
+                        <p class="person">${message.author === "Lord's" ? "Vous" : message.author}</p>
                         <p>${message.content}</p>
                     </div>
                 </li>
