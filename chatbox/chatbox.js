@@ -1,5 +1,16 @@
 const button = document.querySelector('#createChannel');
 
+function escapeHtml(text) {
+    let map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
 button.addEventListener('click', () => {
     const title = document.querySelector('#title').value;
     const message = document.querySelector('#message').value;
@@ -30,13 +41,13 @@ button.addEventListener('click', () => {
 
 async function startChat(title, message, threadId) {
     document.querySelector('#app').innerHTML = `
-        <h2 style="border-bottom: 1.5px solid #0f3250;padding-bottom: 1rem;">${title}<br> #${threadId}</h2>
+        <h2 style="border-bottom: 1.5px solid #0f3250;padding-bottom: 1rem;">${escapeHtml(title)}<br> #${escapeHtml(threadId)}</h2>
         <div class="chat">
             <ul id="chatMessage">
                 <li class="me">
                     <div class="message">
                         <p class="person">Me</p>
-                        <p>${message}</p>
+                        <p>${escapeHtml(message)}</p>
                     </div>
                 </li>
             </ul>
@@ -107,8 +118,8 @@ async function updateChat() {
             chatMessage.innerHTML += `
                 <li class="${message.author === "Lord's" ? "me" : "you"}" ${i !== (message.length - 1) ? 'style="margin-top: 1.3rem;"' : ""}>
                     <div class="message">
-                        <p class="person">${message.author === "Lord's" ? "Vous" : message.author}</p>
-                        <p>${message.content}</p>
+                        <p class="person">${escapeHtml(message.author === "Lord's" ? "Vous" : message.author)}</p>
+                        <p>${escapeHtml(message.content)}</p>
                     </div>
                 </li>
             `;
@@ -117,7 +128,7 @@ async function updateChat() {
             chatMessage.innerHTML += `
                 <li class="${message.author === "Lord's" ? "me" : "you"}">
                     <div class="message">
-                        <p>${message.content}</p>
+                        <p>${escapeHtml(message.content)}</p>
                     </div>
                 </li>
             `;
